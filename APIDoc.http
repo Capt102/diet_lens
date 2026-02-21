@@ -1,0 +1,19 @@
+post http://127.0.0.1:8000/register/      
+Content-Type: application/json
+
+{
+    "username":"django",
+    "password":"Password@123",
+    "email":"django@gmail.com",
+    "phone":"673832678635"
+}
+
+###
+post http://127.0.0.1:8000/token/
+Content-Type: application/json
+
+{
+    "username":"django@gmail.com",
+    "password":"Password@123"
+
+}
