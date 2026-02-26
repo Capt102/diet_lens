@@ -2,10 +2,10 @@ post http://127.0.0.1:8000/register/
 Content-Type: application/json
 
 {
-    "username":"django",
+    "username":"spring",
     "password":"Password@123",
     "email":"django@gmail.com",
-    "phone":"673832678635"
+    "phone":"675672678635"
 }
 
 ###
@@ -13,7 +13,93 @@ post http://127.0.0.1:8000/token/
 Content-Type: application/json
 
 {
-    "username":"django@gmail.com",
+    "username":"spring",
     "password":"Password@123"
 
 }
+
+###
+post http://127.0.0.1:8000/profile/
+Content-Type: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+{
+    "height":173,
+    "weight":64,
+    "age":22,
+    "gender":"male"
+
+}
+
+###
+get http://127.0.0.1:8000/profile/1/
+Accept: application/json
+Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+###
+put http://127.0.0.1:8000/profile/1/
+Content-Type: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+{
+    "height":175,
+    "weight":45,
+    "age":22,
+    "gender":"male"
+}
+
+###
+get http://127.0.0.1:8000/user/1/
+Accept: application/json
+Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+
+###
+post http://127.0.0.1:8000/foodlog/
+Content-Type: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+{
+    "name":"chapathi",
+    "calories":15,
+    "meal_type":"dinner" 
+
+}
+
+###
+get http://127.0.0.1:8000/foodlog/
+Accept: application/json
+Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+###
+get http://127.0.0.1:8000/foodlog/3/
+Accept: application/json
+Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+###
+put http://127.0.0.1:8000/foodlog/3/
+Content-Type: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+{
+  "id": 3,
+  "name": "biriyani",
+  "meal_type": null,
+  "calories": 1060,
+  "serving_size": null,
+  "notes": null,
+  "picture": null,
+  "created_at": "2026-02-25T06:21:59.757381Z",
+  "owner": 1
+}
+
+###
+DELETE http://127.0.0.1:8000/foodlog/3/
+Accept: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+###
+get http://127.0.0.1:8000/summary/
+Accept: application/json
+Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+

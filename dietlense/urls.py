@@ -18,10 +18,16 @@ from django.contrib import admin
 from django.urls import path
 
 from rest_framework.authtoken.views import ObtainAuthToken
-from diet_app.views import SignUpView
+from diet_app.views import SignUpView,UserProfileCreateView,UserProfileretrieveUpdateView,UserRetrieveview,FoodlogcreatelistView,FoodLogRetrieveUpdateDestroyView,SummaryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('token/',ObtainAuthToken.as_view()),
     path('register/',SignUpView.as_view()),
+    path("profile/",UserProfileCreateView.as_view()),
+    path("profile/<int:pk>/",UserProfileretrieveUpdateView.as_view()),
+    path('user/<int:pk>/',UserRetrieveview.as_view()),
+    path('foodlog/',FoodlogcreatelistView.as_view()),
+    path('foodlog/<int:pk>/',FoodLogRetrieveUpdateDestroyView.as_view()),
+    path('summary/',SummaryView.as_view()),
 ]

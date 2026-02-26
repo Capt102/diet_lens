@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from diet_app.utility_fun import daily_calorie_consumption
 
 class User(AbstractUser):
     phone = models.CharField(max_length=200,unique=True)
@@ -34,3 +35,37 @@ class UserProfile(models.Model):
     bmr = models.FloatField(null=True)
 
     owner = models.OneToOneField(User,on_delete=models.CASCADE,related_name="profile")
+
+    def save(self,*args,**kwargs):
+        self.bmr=daily_calorie_consumption(self.height,self.weight,self.age,self.gender,float(self.activity_level))
+        
+        super().save(*args,**kwargs)
+
+class FoodLog(models.Model):
+
+    name = models.CharField(max_length=200,null=True)
+
+    MEAL_TYPE_OPTIONS=(
+        ("breakfast","Breakfast"),
+        ("lunch","Lunch"),
+        ("dinner","Dinner"),
+        ("snack","Snack")
+    )
+
+    meal_type = models.CharField(max_length=200,choices=MEAL_TYPE_OPTIONS,null=True)
+
+    calories = models.PositiveIntegerField(null=True)
+
+    serving_size = models.CharField(max_length=200,null=True)
+
+    notes = models.TextField(null=True)
+
+    picture = models.ImageField(upload_to="foodlogs",null=True)
+
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="foodentries")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+
+        return self.name
