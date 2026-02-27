@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
     
-    def get_profile(self,obj):
+    def get_profile(self,obj): #Goal: Serialize a user's profile data, returning null in the API response if the user lacks a profile
         try:
             return UserProfileSerializer(obj.profile).data
         except UserProfile.DoesNotExist:

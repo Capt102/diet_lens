@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from rest_framework.authtoken.views import ObtainAuthToken
-from diet_app.views import SignUpView,UserProfileCreateView,UserProfileretrieveUpdateView,UserRetrieveview,FoodlogcreatelistView,FoodLogRetrieveUpdateDestroyView,SummaryView
+from diet_app.views import SignUpView,UserProfileCreateView,UserProfileretrieveUpdateView,UserRetrieveview,FoodlogcreatelistView,FoodLogRetrieveUpdateDestroyView,SummaryView,GetdietplanViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('foodlog/',FoodlogcreatelistView.as_view()),
     path('foodlog/<int:pk>/',FoodLogRetrieveUpdateDestroyView.as_view()),
     path('summary/',SummaryView.as_view()),
+    path('diet/',GetdietplanViews.as_view()),
 ]

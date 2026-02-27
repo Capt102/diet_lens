@@ -4,7 +4,8 @@ from diet_app.serializers import UserSerializer,UserProfileSerializer,FoodLogSer
 from diet_app.models import UserProfile,User,FoodLog
 from rest_framework import permissions,authentication
 from diet_app.utility_fun import daily_calorie_consumption
-from diet_app.permissions import IsOwner
+from diet_app.permissions import IsOwner,profileRequired
+from diet_app.get_diet_plan import generate_kerala_diet_plan
 
 # Create your views here.
 class SignUpView(CreateAPIView):
@@ -33,7 +34,7 @@ class UserProfileCreateView(CreateAPIView):
 class UserProfileretrieveUpdateView(RetrieveAPIView,UpdateAPIView):
     serializer_class=UserProfileSerializer
     authentication_classes=[authentication.TokenAuthentication]
-    permission_classes=[IsOwner]
+    permission_classes=[profileRequired,IsOwner]
     queryset = UserProfile.objects.all()
 
 class UserRetrieveview(RetrieveAPIView):
@@ -45,7 +46,7 @@ class UserRetrieveview(RetrieveAPIView):
 class FoodlogcreatelistView(CreateAPIView,ListAPIView):
     serializer_class=FoodLogSerializer
     authentication_classes=[authentication.TokenAuthentication]
-    permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAuthenticated,profileRequired]
     def perform_create(self, serializer):
          serializer.save(owner=self.request.user)
     #queryset = FoodLog.objects.all()
@@ -56,7 +57,7 @@ class FoodLogRetrieveUpdateDestroyView(RetrieveAPIView,UpdateAPIView,DestroyAPIV
     serializer_class=FoodLogSerializer
     queryset = FoodLog.objects.all()
     authentication_classes=[authentication.TokenAuthentication]
-    permission_classes=[IsOwner]
+    permission_classes=[IsOwner,profileRequired]
 
 
 from rest_framework.views import APIView
@@ -67,7 +68,7 @@ from django.db.models import Sum
 
 class SummaryView(APIView):
     authentication_classes=[authentication.TokenAuthentication]
-    permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAuthenticated,profileRequired]
 
     def get(self,request,*args,**kwargs):
         cur_date=timezone.now().date()
@@ -84,6 +85,27 @@ class SummaryView(APIView):
                  }
 
         return Response(data=context)
+    
+class GetdietplanViews(APIView):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated,profileRequired]
+    def post(self,request,*args,**kwargs):
+
+        goal = request.data.get("goal")
+        age=request.user.profile.age
+        weight=request.user.profile.weight
+        gender=request.user.profile.gender
+        target_weight=request.data.get("target_weight")
+        duration=request.data.get("duration")
+
+        print(goal,age,weight,gender,target_weight,duration)
+
+        result=generate_kerala_diet_plan(goal=goal,age=age,weight=weight,gender=gender,target_weight=target_weight,duration=duration)
+
+        return Response(data=result)
+
+
+    
 
 
 

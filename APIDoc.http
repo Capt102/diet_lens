@@ -2,10 +2,10 @@ post http://127.0.0.1:8000/register/
 Content-Type: application/json
 
 {
-    "username":"spring",
+    "username":"go",
     "password":"Password@123",
-    "email":"django@gmail.com",
-    "phone":"675672678635"
+    "email":"go@gmail.com",
+    "phone":"675672678634"
 }
 
 ###
@@ -13,7 +13,7 @@ post http://127.0.0.1:8000/token/
 Content-Type: application/json
 
 {
-    "username":"spring",
+    "username":"go",
     "password":"Password@123"
 
 }
@@ -39,7 +39,8 @@ Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
 ###
 put http://127.0.0.1:8000/profile/1/
 Content-Type: application/json
-Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+Authorization: Token 43aed0fc580828a8ba83d1878372a4d7292a53fb
+
 
 {
     "height":175,
@@ -101,5 +102,18 @@ Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
 ###
 get http://127.0.0.1:8000/summary/
 Accept: application/json
-Authorization:  Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+Authorization:  Token 0c105bb0eaf743aed0fc580828a8ba83d1878372a4d7292a53fbc05d3c0dd97a4a5e5f404d9fa43e
+
+###
+POST http://127.0.0.1:8000//diet/
+Content-Type: application/json
+Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
+
+{
+    "goal":"weight loss",
+    "target_weight":54,
+    "duration":3
+
+}
+
 

@@ -6,3 +6,15 @@ class IsOwner(BasePermission):
         if isinstance(obj,User):
             return request.user == obj
         return request.user==obj.owner
+    
+# user must create profile to see the summary foodlog it restrict to view
+class profileRequired(BasePermission):
+    message="User has no profile"
+    def has_permission(self, request, view):
+        try:
+            profile=request.user.profile
+
+            return True
+        except:
+            return False
+        
