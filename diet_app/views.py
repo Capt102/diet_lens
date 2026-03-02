@@ -6,6 +6,9 @@ from rest_framework import permissions,authentication
 from diet_app.utility_fun import daily_calorie_consumption
 from diet_app.permissions import IsOwner,profileRequired
 from diet_app.get_diet_plan import generate_kerala_diet_plan
+from diet_app.process_food_image import analyze_food
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
 class SignUpView(CreateAPIView):
@@ -15,7 +18,8 @@ class SignUpView(CreateAPIView):
 class UserProfileCreateView(CreateAPIView):
     serializer_class=UserProfileSerializer
 
-    authentication_classes=[authentication.TokenAuthentication]
+   # authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -33,19 +37,22 @@ class UserProfileCreateView(CreateAPIView):
 
 class UserProfileretrieveUpdateView(RetrieveAPIView,UpdateAPIView):
     serializer_class=UserProfileSerializer
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[profileRequired,IsOwner]
     queryset = UserProfile.objects.all()
 
 class UserRetrieveview(RetrieveAPIView):
     serializer_class=UserSerializer
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[IsOwner]
     queryset = User.objects.all()
 
 class FoodlogcreatelistView(CreateAPIView,ListAPIView):
     serializer_class=FoodLogSerializer
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[permissions.IsAuthenticated,profileRequired]
     def perform_create(self, serializer):
          serializer.save(owner=self.request.user)
@@ -56,7 +63,8 @@ class FoodlogcreatelistView(CreateAPIView,ListAPIView):
 class FoodLogRetrieveUpdateDestroyView(RetrieveAPIView,UpdateAPIView,DestroyAPIView):
     serializer_class=FoodLogSerializer
     queryset = FoodLog.objects.all()
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[IsOwner,profileRequired]
 
 
@@ -67,7 +75,8 @@ from django.db.models import Sum
 
 
 class SummaryView(APIView):
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[permissions.IsAuthenticated,profileRequired]
 
     def get(self,request,*args,**kwargs):
@@ -87,7 +96,8 @@ class SummaryView(APIView):
         return Response(data=context)
     
 class GetdietplanViews(APIView):
-    authentication_classes=[authentication.TokenAuthentication]
+    #authentication_classes=[authentication.TokenAuthentication]
+    authentication_classes=[JWTAuthentication]
     permission_classes=[permissions.IsAuthenticated,profileRequired]
     def post(self,request,*args,**kwargs):
 
@@ -103,6 +113,29 @@ class GetdietplanViews(APIView):
         result=generate_kerala_diet_plan(goal=goal,age=age,weight=weight,gender=gender,target_weight=target_weight,duration=duration)
 
         return Response(data=result)
+
+class AnayzeFoodImage(APIView):
+        #authentication_classes=[authentication.TokenAuthentication]
+        authentication_classes=[JWTAuthentication]
+
+        permission_classes=[permissions.IsAuthenticated,profileRequired]
+
+        def post(self,request,*args,**kwargs):
+
+            image=request.data.get("image")
+
+            data=analyze_food(image)
+
+            print(data)
+
+            food_instance=FoodLog.objects.create(name=data.get("food_name"),calories=data.get("average_calorie"),owner=request.user)
+
+            serializer_instance= FoodLogSerializer(food_instance)
+
+            return Response(data=serializer_instance.data)
+
+
+    
 
 
     

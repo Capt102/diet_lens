@@ -116,4 +116,24 @@ Authorization: Token 0c105bb0eaf7c05d3c0dd97a4a5e5f404d9fa43e
 
 }
 
+#api call jwt token
+###
+post http://127.0.0.1:8000/token/
+Content-Type: application/json
+
+{
+    "username":"go",
+    "password":"Password@123"
+}
+
+###
+post http://127.0.0.1:8000/token/refresh/
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MjUyMTg2MiwiaWF0IjoxNzcyNDM1NDYyLCJqdGkiOiJlMWVmYzY3ZmEwMDE0ZDEyOGFlZTNlNDM3ZGVjZjQ4YyIsInVzZXJfaWQiOiIzIn0.x1swISEkiWl8ZMx2fDjH0qMTBUdZo0Aj0p12FdQDyEA"
+}
+
+
+
 

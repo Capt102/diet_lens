@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.urls import path
 
 from rest_framework.authtoken.views import ObtainAuthToken
-from diet_app.views import SignUpView,UserProfileCreateView,UserProfileretrieveUpdateView,UserRetrieveview,FoodlogcreatelistView,FoodLogRetrieveUpdateDestroyView,SummaryView,GetdietplanViews
+from diet_app.views import SignUpView,UserProfileCreateView,UserProfileretrieveUpdateView,UserRetrieveview,FoodlogcreatelistView,FoodLogRetrieveUpdateDestroyView,SummaryView,GetdietplanViews,AnayzeFoodImage
+
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('token/',ObtainAuthToken.as_view()),
+    #path('token/',ObtainAuthToken.as_view()),
     path('register/',SignUpView.as_view()),
     path("profile/",UserProfileCreateView.as_view()),
     path("profile/<int:pk>/",UserProfileretrieveUpdateView.as_view()),
@@ -31,4 +34,7 @@ urlpatterns = [
     path('foodlog/<int:pk>/',FoodLogRetrieveUpdateDestroyView.as_view()),
     path('summary/',SummaryView.as_view()),
     path('diet/',GetdietplanViews.as_view()),
+    path('Analyze-image/',AnayzeFoodImage.as_view()),
+    path('token/',TokenObtainPairView.as_view()),
+    path('token/refresh/',TokenRefreshView.as_view()),
 ]

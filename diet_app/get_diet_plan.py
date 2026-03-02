@@ -5,7 +5,7 @@ from google.genai import types
 def generate_kerala_diet_plan(goal="weight loss",age =None,weight=None,gender="male",target_weight=None,duration=None):
     
     # Initialize the new Client
-    client = genai.Client(api_key="AIzaSyBjr0li08qR4N8yUeUVN2q47JMC23yyj8s")
+    client = genai.Client(api_key="AIzaSyAu_qTcLt-uJA_GFu01MbPRfjq9HvPtQsQ")
     
     # Extract user
    
